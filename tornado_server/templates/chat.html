@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Let's chat</title>
+    <script type="text/javascript" src="{{ static_url('js/jquery-3.3.1.js')}}"></script>
+</head>
+<body>
+<div>
+    <input type="text" id="message"></input>
+    <button onclick="sendMessage()">发送</button>
+</div>
+<div id="contents" style="width:500px;height:500px;overflow: auto"></div>
+
+<script>
+//    建立WebSocket连接
+    var ip="127.0.0.1"
+    port='8092'
+    var ws = new WebSocket('ws://'+ip+':'+port+'/chat')
+//接受服务器发送的消息
+ws.onmessage=function (e) {
+        $("#contents").append("<p>"+e.data+"</p>")
+    }
+
+//向服务器发送消息
+function sendMessage(){
+        var mess = $("#message").val()
+        ws.send(mess)
+        $("#message").val("")
+    }
+</script>
+</body>
+</html>

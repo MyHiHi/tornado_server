@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    {{ tip1 }}<br />
+    {{ str}}<br/>
+{{ tip2 }}<br />
+    {% raw str2%}<br/>
+{{ tip2 }}<br />
+    {% autoescape None%}
+    {{ str2}}
+{{escape(str2)}}
+</body>
+</html>

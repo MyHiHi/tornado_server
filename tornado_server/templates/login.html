@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script type="text/javascript" src="{{ static_url('js/jquery-3.3.1.js') }}"></script>
+</head>
+<body>
+<!--<form action="/upfile" enctype="multipart/form-data" method="post" style="margin:0 auto">-->
+<!--<form action="/postfile2" enctype="multipart/form-data" method="post" style="margin:0 auto">-->
+<form action="/verifylogin?next=homelogin" enctype="multipart/form-data" method="post" style="margin:0 auto">
+
+    {% module xsrf_form_html() %}
+    <input id="cook" type="hidden" name="_xsrf" value="">
+    姓名:<input type="text" id="name" name="name">
+    <hr />
+    密码:<input id="pwd" type="password" name="pwd">
+    <hr />
+    <input type="checkbox" name="hobby" value="swim">swim<br />
+        <input type="checkbox" name="hobby" value="jump">jump<br />
+    <input type="checkbox" name="hobby" value="travel">travel<br />
+    <fieldset name="PLAN" style="border: dotted #72ffa0 1px">
+        <legend>PLAN</legend>
+        <input type="radio" name="plan" value="go">GO
+        <hr/>
+                <input type="radio" name="plan" value="goo">GOO
+        <hr/>
+                <input type="radio" name="plan" value="go by">GO BY
+    </fieldset>
+    <input type="file" name="file_post" />文件上传
+    <input type="file" name="file_post2" />文件上传
+
+    <input type="submit" vlaue="提交">
+
+<button onclick="login()">登陆</button>
+</form>
+<script>
+
+    function getCookie(name){
+        var cook = document.cookie.match('\\b'+name+'=([^;]*)\\b')
+        return cook?cook[1]:undefined;
+    }
+//    console.log(getCookie('_xsrf'))
+    document.getElementById("cook").value=getCookie('_xsrf')
+//    console.log(getCookie('_xsrf'))
+    function login(){
+        name=document.getElementById('name').value
+        pwd = document.getElementById("pwd").value
+//        console.log(name)
+        info="_xsrf="+getCookie('_xsrf')+"&username="+name+"&pwd="+pwd
+//       $.post("/postfile2",{"_xsrf":getCookie("_xsrf"),"name":name},
+//       function(data) {
+//            alert("ok!")
+//       })
+        info_list={"name":name,"pwd":pwd}
+        var data_str=JSON.stringify(info_list)
+//        console.log(data_str)
+        $.ajax({
+            url:"/postfile2",
+            method:"POST",
+            data:data_str,
+
+            success:function (data) {
+                alert('ok')
+            },
+            headers:{
+                'X-XSRFToken':getCookie('_xsrf')
+            },
+            error:function(){
+                alert('error')
+            }
+
+        })
+    }
+</script>
+</body>
+</html>
